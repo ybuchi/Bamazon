@@ -29,8 +29,7 @@ connection.connect(function(err) {
 function start() {
         //connect to the sql query
         connection.query("SELECT * FROM products", function(err, results) {
-            
-            console.log("Connected to the SQL table. The results are:  " + results)
+
 
             if (err) throw err;
         
@@ -38,9 +37,9 @@ function start() {
             inquirer.
             prompt([
                 {
-                    name: "product list",
-                    type: "rawlist",
-                    message: "What is the id of the product you are trying to buy?",
+                    name: "product_list",
+                    type: "input",
+                    message: "See anything you like? Enter the id of the product you are trying to buy. (Input must be a number).",
                     choices: function(){
                         var choiceArray = [];
                         for(var i = 0; i < results.length; i++){
@@ -51,24 +50,27 @@ function start() {
                                 price: results[i].price
                             }
 
-                            
                             choiceArray.push(productInfo);
                             
                         }
-                        console.log("This is the console log: " + choiceArray);
-                        return choiceArray;
-
+                        console.log("Welcome to Bamazon! Below list of items on sale. If you would like to buy an item, please remember it's ID for next steps.");
+                        console.log("-----------ITEMS ON SALE-----------")
+                        console.log("-----------------------------------")
+                        console.log(choiceArray);
                     }
 
                 }
             ])
             .then(function(answer){
-                var id = answer.product_id
                 var products = results
-                console.log("You got to the answer! " + id);
+                console.log("Your choice ID " + answer.product_list);
                 console.log("These are the results: " + products[0].id);
 
-                // if the "id" is in the database
+                // if the user's input matches the id, then confirm purchase
+
+                //if the user's input does not match any id, return error saying input is either not valid or is not a number, prompt again
+
+
 
                 // !! Before moving one, we first need to display the list of products that are currently in the database so the user knows which ID to use.
             })
