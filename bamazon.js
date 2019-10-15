@@ -27,42 +27,44 @@ connection.connect(function(err) {
 
 // function which prompts the user for what action they should take
 function start() {
-        //connect to the sql query
-        connection.query("SELECT * FROM products", function(err, results) {
+    //connect to the sql query
+    connection.query("SELECT * FROM products", function(err, results) {
+        //Set up empty array
+        var choiceArray = [];
+        //Run SQL table to display the product id, name and price
+        for(var i = 0; i < results.length; i++){
+        //create objects out of each result
+            var productInfo = {
+                id: results[i].id,
+                name: results[i].product_name,
+                price: results[i].price
+            }
 
-
-            if (err) throw err;
+            choiceArray.push(productInfo);
+        };      
         
-            //prompt the user for the produc "id"
-            inquirer.
-            prompt([
-                {
-                    name: "product_list",
-                    type: "input",
-                    message: "See anything you like? Enter the id of the product you are trying to buy. (Input must be a number).",
-                    choices: function(){
-                        var choiceArray = [];
-                        for(var i = 0; i < results.length; i++){
-                            //create objects out of each result
-                            var productInfo = {
-                                id: results[i].id,
-                                name: results[i].product_name,
-                                price: results[i].price
-                            }
 
-                            choiceArray.push(productInfo);
-                            
-                        }
-                        console.log("Welcome to Bamazon! Below list of items on sale. If you would like to buy an item, please remember it's ID for next steps.");
-                        console.log("-----------ITEMS ON SALE-----------")
-                        console.log("-----------------------------------")
-                        console.log(choiceArray);
-                    }
+        console.log("Welcome to Bamazon! Below list of items on sale. If you would like to buy an item, please remember it's ID for next steps.");
+        console.log("-----------ITEMS ON SALE-----------");
+        console.log("-----------------------------------");
+        console.log(choiceArray);
 
-                }
+
+        if (err) throw err;
+        
+        //Create a function to prompt the user to buy something
+    inquirer.
+        prompt([
+            {
+                name: "product_list",
+                type: "input",
+                message: "See anything you like? Enter the id of the product you are trying to buy. (Input must be a number)."
+            }
             ])
             .then(function(answer){
+
                 var userChoice = parseInt(answer.product_list);
+
                 console.log("-----------------------------------");
                 //Make sure to convert the answer into a number.
                 console.log("YOUR CHOICE ID: " + userChoice);
@@ -75,9 +77,14 @@ function start() {
 
                         //if the item is out of stock, display message.
                         if(results[i].stock_quantity === 0){
-                            console.log("Sorry but the item you requested is out of stock.");
+                            console.log("We're so sorry but the item you requested is out of stock :(");
                         }else{
+                        
+                        console.log("-----------------------------------");
                         console.log("Item Found: " + results[i].product_name + " - Price: " + results[i].price + " - Stock: " + results[i].stock_quantity);
+                        console.log("-----------------------------------");
+                        
+                        
                         inquirer.
                             prompt([
                                 {
@@ -86,18 +93,24 @@ function start() {
                                     type: "confirm"
                                 }
                             ])
-                        }
-                    }
-                }
+                            .then(function(answer){
+
+                                //If the user answers yes, execute the BuyItem() function (create it first) and thenupdate the database and subtract 1 from the stock of the item
+
+                                //If the user answers no, bring them back to start()
+
+
+
+                            });
+                        }//end of else
+                    }//end of if statement
+                }//end of for loop
 
                 //if the user's input does not match any id, return error saying input is either not valid or is not a number, prompt again
 
 
 
                 // !! Before moving one, we first need to display the list of products that are currently in the database so the user knows which ID to use.
-            })
-        })
-    };
-
-        
-  
+            });
+        });//end of connection
+    };//end of function
