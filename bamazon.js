@@ -62,11 +62,18 @@ function start() {
                 }
             ])
             .then(function(answer){
-                var products = results
-                console.log("Your choice ID " + answer.product_list);
-                console.log("These are the results: " + products[0].id);
+                var userChoice = parseInt(answer.product_list);
+                console.log("-----------------------------------");
+                //Make sure to convert the answer into a number.
+                console.log("YOUR CHOICE ID: " + userChoice);
+                console.log("-----------------------------------");
 
                 // if the user's input matches the id, then confirm purchase
+                for (i = 0; i < results.length; i++){
+                    if(userChoice === results[i].id){
+                        console.log("We found the object youare looking for!")
+                    }
+                }
 
                 //if the user's input does not match any id, return error saying input is either not valid or is not a number, prompt again
 
