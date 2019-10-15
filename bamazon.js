@@ -71,7 +71,22 @@ function start() {
                 // if the user's input matches the id, then confirm purchase
                 for (i = 0; i < results.length; i++){
                     if(userChoice === results[i].id){
-                        console.log("We found the object youare looking for!")
+                        console.log("We found a matching item!");
+
+                        //if the item is out of stock, display message.
+                        if(results[i].stock_quantity === 0){
+                            console.log("Sorry but the item you requested is out of stock.");
+                        }else{
+                        console.log("Item Found: " + results[i].product_name + " - Price: " + results[i].price + " - Stock: " + results[i].stock_quantity);
+                        inquirer.
+                            prompt([
+                                {
+                                    name: "confirmation",
+                                    message: "^This item is in stock! Is this the item you would like to buy?",
+                                    type: "confirm"
+                                }
+                            ])
+                        }
                     }
                 }
 
