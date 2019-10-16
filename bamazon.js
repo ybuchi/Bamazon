@@ -74,6 +74,7 @@ function start() {
                 for (i = 0; i < results.length; i++){
                     if(userChoice === results[i].id){
                         console.log("We found a matching item!");
+                        var chosenItem = results[i];
 
                         //if the item is out of stock, display message.
                         if(results[i].stock_quantity === 0){
@@ -96,11 +97,29 @@ function start() {
                             .then(function(answer){
 
                                 //If the user answers yes, execute the BuyItem() function (create it first) and thenupdate the database and subtract 1 from the stock of the item
-
-                                //If the user answers no, bring them back to start()
-
-
-
+                                if(answer){
+                                    //execute buyItem function
+                                    connection.query(
+                                        "UPDATE products SET ? WHERE ?",
+                                        [
+                                            {
+                                                stock_quantity: chosenItem.stock_quantity - 1
+                                            },
+                                            {
+                                                id: chosenItem.id
+                                            }
+                                        ],
+                                        function(error){
+                                            if (error) throw err;
+                                            console.log("Purchasing Item..."),
+                                            console.log("You have completed your purchase successfully!");
+                                        }
+                                    )
+                                }else{
+                                    console.log("That's ok! Maybe you need more time to browse.");
+                                    start();
+                                }
+                               
                             });
                         }//end of else
                     }//end of if statement
@@ -114,3 +133,7 @@ function start() {
             });
         });//end of connection
     };//end of function
+
+function buyItem(){
+
+}
