@@ -89,15 +89,16 @@ function start() {
                         inquirer.
                             prompt([
                                 {
-                                    name: "confirmation",
+                                    name: "confirm",
                                     message: "^This item is in stock! Is this the item you would like to buy?",
-                                    type: "confirm"
+                                    type: "confirm",
+                                    default: true
                                 }
                             ])
-                            .then(function(answer){
+                            .then(function(inquirerResponse){
 
                                 //If the user answers yes, execute the BuyItem() function (create it first) and thenupdate the database and subtract 1 from the stock of the item
-                                if(answer){
+                                if(inquirerResponse.confirm){
                                     //execute buyItem function
                                     connection.query(
                                         "UPDATE products SET ? WHERE ?",
@@ -116,7 +117,9 @@ function start() {
                                         }
                                     )
                                 }else{
+                                    console.log("-----------------------------------");
                                     console.log("That's ok! Maybe you need more time to browse.");
+                                    console.log("-----------------------------------");
                                     start();
                                 }
                                
