@@ -19,14 +19,23 @@ Once the user has an item in mind:
 
     ![Opening_Bamazon](images/BamazonInStockBeforeBuy.png)
 
+    ![Opening_Bamazon](images/BamazonSuccessfulPurchase.png)
 
-
-
-
-
+    ![Opening_Bamazon](images/BamazonSQLTableSuccessfulPurchase.png)
 
 
     * If the item is out of stock, the user will be prompted to submit another id or exit
+
+
+    ## Exiting the Application
+
+    Whether the user has decided to buy the item or not, they will be asked if they would like to continue browsing. 
+    
+    * If they answer yes, the "start()" function will be executed and they will be able to start over
+
+    * If they answer no, the console will let them know how to exit the application:
+
+    ![Opening_Bamazon](images/BamazonExit.png)
 
 
 

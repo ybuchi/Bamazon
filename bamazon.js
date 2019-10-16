@@ -112,15 +112,51 @@ function start() {
                                         ],
                                         function(error){
                                             if (error) throw err;
-                                            console.log("Purchasing Item..."),
+                                            console.log("Purchasing Item...");
                                             console.log("You have completed your purchase successfully!");
+
+                                    inquirer
+                                        .prompt([
+                                            {
+                                                type: "confirm",
+                                                message: "Would you like to keep browsing?",
+                                                name: "keepbrowsing",
+                                                default: true
+                                            }
+                                        ])
+                                        .then(function(inquirerResponse){
+                                            if(inquirerResponse.keepbrowsing){
+                                                start();
+                                            }else{
+                                                console.log("Thank you for shopping at Bamazon! Please come again! You can exit by pressing ^C (control + C).")
+                                            }
+                                        })
+
+
                                         }
                                     )
                                 }else{
                                     console.log("-----------------------------------");
                                     console.log("That's ok! Maybe you need more time to browse.");
                                     console.log("-----------------------------------");
-                                    start();
+
+                                    inquirer
+                                        .prompt([
+                                            {
+                                                type: "confirm",
+                                                message: "Would you like to keep browsing?",
+                                                name: "confirm2",
+                                                default: true
+                                            }
+                                        ])
+                                        .then(function(inquirerResponse){
+                                            if(inquirerResponse.confirm2){
+                                                start();
+                                            }else{
+                                                console.log("Thank you for shopping at Bamazon! Please come again! You can exit by pressing ^C (control + C).")
+                                            }
+                                        })
+        
                                 }
                                
                             });
